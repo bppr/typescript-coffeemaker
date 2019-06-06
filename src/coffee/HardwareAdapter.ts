@@ -8,6 +8,9 @@ export interface IHardwareAdapter {
   isReadyToBrew(): boolean
   shouldStop(): boolean
   shouldPause(): boolean
+
+  tick(): void
+  onStartRequested(handler: StartHandler): void
 }
 
 export const START_WAS_NOT_REQUESTED = 0;
@@ -23,8 +26,14 @@ export const BOILER_OFF = 0;
 export const LIGHT_ON = 1;
 export const LIGHT_OFF = 0;
 
+type StartHandler = () => void;
+
 export default class HardwareAdapter implements IHardwareAdapter {
-  constructor(private api: HardwareAPI) {}
+  onStartRequestedHandlers: StartHandler[]
+  
+  constructor(private api: HardwareAPI) {
+    this.onStartRequestedHandlers = [];
+  }
 
   start() {
     this.api.setBoilerState(BOILER_ON);
@@ -68,7 +77,14 @@ export default class HardwareAdapter implements IHardwareAdapter {
       || this.api.getBoilerStatus() === BOILER_EMPTY;
   }
 
-  turnOff(): void {
+  onStartRequested(handler: StartHandler): void {
+    this.onStartRequestedHandlers.push(handler);
+  }
+
+  tick() {
+    if(this.wasStartRequested) {
+      this.onStartRequestedHandlers.forEach(handler => handler());
+    }
   }
 
 }
