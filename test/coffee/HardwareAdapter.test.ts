@@ -140,5 +140,6 @@ describe('HardwareAdapter', () => {
   describe('pause', () => {
     
   });
+
   
 });

@@ -17,7 +17,8 @@ describe('walruses', () => {
   it('adds eaten food contents to its stomach', () => {
     let walrus = new Walrus('walter');
 
-    walrus = walrus.eat('shoes');
+    walrus = walrus
+      .eat('shoes');
 
     expect(walrus.stomach).toEqual(['shoes']);
   })

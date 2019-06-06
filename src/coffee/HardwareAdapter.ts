@@ -1,9 +1,9 @@
 import HardwareAPI from "./HardwareAPI";
 
 export interface IHardwareAdapter {
-  start(): void
-  stop(): void
-  pause(): void
+  start(): IHardwareAdapter
+  stop(): IHardwareAdapter
+  pause(): IHardwareAdapter
   wasStartRequested(): boolean
   isReadyToBrew(): boolean
   shouldStop(): boolean
@@ -29,15 +29,21 @@ export default class HardwareAdapter implements IHardwareAdapter {
   start() {
     this.api.setBoilerState(BOILER_ON);
     this.api.setValveState(VALVE_CLOSED);
+
+    return this;
   }
 
   pause() {
     this.api.setValveState(VALVE_OPEN);
+
+    return this;
   }
 
   stop() {
     this.api.setBoilerState(BOILER_OFF);
     this.api.setValveState(VALVE_OPEN);
+    
+    return this;
   }
 
   wasStartRequested() {
@@ -60,6 +66,9 @@ export default class HardwareAdapter implements IHardwareAdapter {
   shouldStop(): boolean {
     return this.api.getWarmerPlateStatus() === RECEPTACLE_IS_FULL 
       || this.api.getBoilerStatus() === BOILER_EMPTY;
+  }
+
+  turnOff(): void {
   }
 
 }

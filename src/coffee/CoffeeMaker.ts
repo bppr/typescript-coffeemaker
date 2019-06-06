@@ -1,11 +1,5 @@
 import { IHardwareAdapter } from './HardwareAdapter';
 
-type CoffeeMaker {
-  nextTick(): CoffeeMaker
-  & { isPaused: true, brewingTimeoutRemaining: number }
-  & { isBrewing: true, hardwareObservable: Observable<HardwareAPI> }
-}
-
 const BREW_PAUSE_TIMEOUT = 60 * 1000
 
 export default class CoffeeMaker {
