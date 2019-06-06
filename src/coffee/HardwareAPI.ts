@@ -1,24 +1,12 @@
 export default interface HardwareAPI {
-    getWarmerPlateStatus(): number; // coffee pot - there or not or full or not
-    getBoilerStatus(): number;      // boiler - on/off/empty
-    getBrewButtonStatus(): number;  // button was pushed or not
-
-    setBoilerState(state: number): void;
-    setIndicatorLightState(state: number): void;
-    setValveState(state: number): void;
+  getWarmerPlateStatus(): number; // 0: pot is empty, 1: pot is full, 2: pot is not present
+  getBoilerStatus(): number;      // boiler - 0: on / 1: off / 2: empty
+  getBrewButtonStatus(): number;  // button was pushed (1) or not (0)
+  
+  setBoilerState(state: number): void;
+  setIndicatorLightState(state: number): void;
+  setValveState(state: number): void;
 }
-
-// [CoffeeMaker] -> [HardwareAdapter] <- [HardwareAPI]
-// only mock what you own
-
-// ISP
-// the interface-segregation principle (ISP) states that no client 
-// should be forced to depend on methods it does not use.[1] 
-// ISP splits interfaces that are very large into smaller and more 
-// specific ones so that clients will only have to know about the methods
-// that are of interest to them. Such shrunken interfaces are also called role
-// interfaces.[2] ISP is intended to keep a system decoupled and thus easier to refactor, 
-// change, and redeploy
 
 // MK II: tank/reservoir
 // MK III: wall
